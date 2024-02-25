@@ -1,0 +1,15 @@
+<div class="mt-8">
+    <div 
+        *ngFor="let planet of planets"
+        class="mt-2" 
+    >
+        <div class="border-2 border-solid border-indigo-500 rounded-md">
+
+            <!-- Planet Image -->
+            <img class="w-auto h-auto lg:w-44 lg:h-44" [src]="planet.imagePath" alt="{{ planet.name }}">
+        </div>
+
+        <!-- Planet name -->
+        <p class="text-2xl text-center">{{ planet.name }}</p> 
+    </div>
+</div>
