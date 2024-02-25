@@ -1,0 +1,9 @@
+<mat-form-field class="mt-8 w-full">
+  <mat-label>Planet search</mat-label>
+  <input matInput type="text" [(ngModel)]="searchTerm" (input)="onSearchChange()">
+  @if (searchTerm) {
+    <button matSuffix mat-icon-button aria-label="Clear" (click)="searchTerm=''">
+      <mat-icon>close</mat-icon>
+    </button>
+  }
+</mat-form-field>

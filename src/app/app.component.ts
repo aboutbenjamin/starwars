@@ -7,10 +7,15 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'starwars';
-  selectedPersona: any;
+  selectedPersona : any;
+  searchTerm      : string = '';
 
   onPersonaSelected(persona: any) {
     this.selectedPersona = persona;
+  }
+
+  onPlanetSearch(searchTerm: string) {
+    this.searchTerm = searchTerm;
   }
   
 }

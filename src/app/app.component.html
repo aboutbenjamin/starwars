@@ -1,5 +1,6 @@
 <div class="p-4 grid md:grid-cols-2">
   <div>
+    
     <!-- Navigation Tabs Group -->
     <mat-tab-group backgroundColor="primary">
 
@@ -14,8 +15,10 @@
       <!-- Planets Tabs -->
       <mat-tab label="Planets">
 
+        <app-search (searchChange)="onPlanetSearch($event)"></app-search>
+
         <!-- Planets list component -->
-        <app-planets-list></app-planets-list>
+        <app-planets-list [searchTerm]="searchTerm"></app-planets-list>
 
       </mat-tab>
 

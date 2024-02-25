@@ -8,7 +8,7 @@ import { SwapiService } from '../swapi.service';
   styleUrl: './persona-card.component.scss'
 })
 export class PersonaCardComponent implements OnInit {
-  personas: any[] = [];
+  personas : any[]          = [];
   @Output() personaSelected = new EventEmitter<any>();
 
   constructor(private http: HttpClient, private swapiService: SwapiService) { }
@@ -30,7 +30,6 @@ export class PersonaCardComponent implements OnInit {
     this.personaSelected.emit(persona);
   }
 
-
   private extractPersonaId(url: string): number { // Take a string url as input and return a number
     
     // Use a regular expression to match a pattern where the url ends with {digits}
@@ -41,6 +40,7 @@ export class PersonaCardComponent implements OnInit {
 
       // Parse the matched digits (the content of the first captured group) as an integer and return it
       return parseInt(matches[1]);
+      
     }
 
     // If no match was found
