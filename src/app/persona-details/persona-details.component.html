@@ -1,8 +1,8 @@
 <div *ngIf="persona">
-  <div class="flex justify-between w-full">
+  <div class="max-w-full flex flex-col lg:flex-row flex-col-reverse justify-between w-full">
 
     <!-- Left side desktop -->
-    <div class="w-7/12 h-fit background-opacity rounded-md p-6">
+    <div class="w-full lg:w-7/12 h-fit background-opacity rounded-md p-6">
 
       <!-- Persona name -->
       <h1 class="!font-black uppercase">{{ persona.name }}</h1>
@@ -36,7 +36,7 @@
     </div>
 
     <!-- Right side desktop -->
-    <div class="trapezoid-shape w-4/12 background-opacity h-auto rounded-md p-4 bg-gray-500">
+    <div class="trapezoid-shape w-full lg:w-4/12 background-opacity h-auto rounded-md p-4 bg-gray-500">
 
       <!-- Persona image -->
       <img 
@@ -51,8 +51,8 @@
   </div>
 
   <!-- Additional details -->
-  <div class="relative w-fit h-fit mt-8">
-    <ol class="flex gap-4">
+  <div class="relative w-fit h-fit mt-8 flex justify-center items-center mx-auto">
+    <ol class="grid grid-cols-2 lg:flex gap-4">
 
       <!-- Persona height -->
       <li class="flex flex-col justify-center items-center gap-2" matTooltip="Height: {{ persona.height }}">
