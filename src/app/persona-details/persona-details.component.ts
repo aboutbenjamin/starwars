@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BirthYearService } from '../service/birth-year.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-persona-details',
@@ -11,7 +12,7 @@ export class PersonaDetailsComponent implements OnInit {
   @Input() persona: any;
   @Input() homeworldName: string = '';
 
-  constructor(private http: HttpClient, private birthYearService: BirthYearService) { }
+  constructor(private http: HttpClient, private birthYearService: BirthYearService, private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void { // This method is called when the component is initialized
 
@@ -61,6 +62,16 @@ export class PersonaDetailsComponent implements OnInit {
   handleImageError(event: any, persona: any) {
     // Set the source of the image element to a default image (avatar.png) when an error occurs
     event.target.src = '../../assets/images/avatar.png';
+  }
+
+  // Open error snackbar when button is triggered
+  openErrorSnackbar() {
+    this._snackBar.open('Error message', 'Close', {
+      duration: 3000, // Duration in milliseconds
+      horizontalPosition: 'end', // Positioning
+      verticalPosition: 'top',
+      panelClass: ['mat-toolbar', 'mat-warn'] // Custom styling
+    });
   }
 
 }

@@ -36,7 +36,7 @@
     </div>
 
     <!-- Right side desktop -->
-    <div class="trapezoid-shape w-full lg:w-4/12 background-opacity h-auto rounded-md p-4 bg-gray-500">
+    <div class="trapezoid-shape relative w-full lg:w-4/12 background-opacity h-auto rounded-md p-4 bg-gray-500">
 
       <!-- Persona image -->
       <img 
@@ -45,6 +45,10 @@
         alt="{{ persona.name }}"
         (error)="handleImageError($event, persona)"
       >
+
+      <button (click)="openErrorSnackbar()" matTooltip="Basic error" class="trapezoid-shape bg-yellow-400 cursor-pointer hover:bg-yellow-500 absolute z-1 top-4 right-4">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"><path fill="#000000" d="M11 13H5v-2h6V5h2v6h6v2h-6v6h-2z"/></svg>
+      </button>
 
     </div>
 

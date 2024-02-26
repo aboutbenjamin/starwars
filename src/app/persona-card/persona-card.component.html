@@ -4,7 +4,7 @@
         <li 
             *ngFor="let persona of personas"
             (click)="showPersonaDetails(persona)" 
-            class="border-2 border-solid border-gray-500 flex justify-center" [ngClass]="{ 'active-border': persona.isActive }">
+            class="border-2 border-solid border-gray-500 flex justify-center cursor-pointer" [ngClass]="{ 'active-border': persona.isActive }">
 
             <!-- Persona Image -->
             <img 
