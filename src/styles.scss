@@ -10,6 +10,48 @@ body {
     background: url(../src/assets/images/yoda.jpg); 
 }
 
-p {
-    color: aliceblue; 
+p, h1, h2, h3, span {
+    color: aliceblue;
+    margin: 0!important;
+}
+
+::-webkit-scrollbar {
+    height: 5px;
+    width: 0;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: transparent; 
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #ffffff;
+    border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}
+
+.background-opacity {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.absolute-center {
+    top:       50%;
+    left:      50%;
+    transform: translate(-50%);
+}
+
+.brown-gray {
+    background: rgb(91,91,91);
+    background: linear-gradient(90deg, rgba(91,91,91,1) 10%, rgba(94,47,0,1) 100%);
+}
+
+.auburn-white {
+    background: rgb(255,255,255);
+    background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(94,47,0,1) 100%);
 }

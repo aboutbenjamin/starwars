@@ -1,6 +1,6 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, Output, SimpleChanges, EventEmitter } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { SwapiService } from '../swapi.service';
+import { SwapiService } from '../service/swapi.service';
 
 @Component({
   selector: 'app-planets-list',
@@ -9,24 +9,20 @@ import { SwapiService } from '../swapi.service';
 })
 export class PlanetsListComponent implements OnInit {
   planets             : any[]  = [];
-  @Input() searchTerm : string = '';
   filteredPlanets     : any[]  = [];
+  @Input() searchTerm : string = '';
+  @Output() planetSelected     = new EventEmitter<any>(); 
 
   constructor(private http: HttpClient, private swapiService: SwapiService) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void { // This method is called when the component is initialized
 
-    // SWAPI service using HTTP GET request
-    this.http.get<any>(`${this.swapiService.baseUrl}planets`).subscribe(data => {
-      this.planets = data.results;
-    });
+    // Fetching all planets
+    this.fetchAllPlanets();
 
-    // Link the right image to the persona based on the ID
-    this.planets.forEach(planet => {
-      planet.imagePath = `../../assets/images/planet${this.extractPlanetId(planet.url)}.png`;
-    });
-
+    // Filtering planets
     this.filterPlanets();
+
   }
 
   // This method is called whenever there are changes detected in the input properties of the component.
@@ -42,18 +38,36 @@ export class PlanetsListComponent implements OnInit {
     }
   }
 
-  // This method fetches the list of planets from the SWAPI service using HTTP GET request.
-  fetchPlanets(): void {
+  fetchAllPlanets(): void {
+    // Calling the fetchPlanetsRecursive method with the URL for fetching planets
+    this.fetchPlanetsRecursive(`${this.swapiService.baseUrl}planets`);
+  }
 
-    // Make an HTTP GET request to retrieve planet data from the SWAPI.
-    this.http.get<any>(`${this.swapiService.baseUrl}planets`).subscribe(data => {
+  fetchPlanetsRecursive(url: string): void {
+    // Making an HTTP GET request to fetch planets from the given URL
+    this.http.get<any>(url).subscribe(data => { // When the response is received, this callback function is executed
 
-      // Once data is received, store the planet results in the 'planets' property.
-      this.planets = data.results;
+      // Concatenating the fetched planets with the existing planets array
+      this.planets = [...this.planets, ...data.results];
 
-      // Call the filterPlanets() method to filter the list of planets based on the search term.
-      this.filterPlanets();
+      // Checking if there is another page of results
+      if (data.next) {
 
+        // If another page exists, recursively fetch planets from the next page
+        this.fetchPlanetsRecursive(data.next);
+
+      } else { // If there are no more pages, perform additional operations
+        
+        // Linking the images of planets and filtering planets
+        this.planets.forEach(planet => {
+          // Constructing the image path for each planet based on its ID
+          planet.imagePath = `../../assets/images/planet${this.extractPlanetId(planet.url)}.png`;
+        });
+
+        // Once all planets are fetched and images are linked, filter planets
+        this.filterPlanets();
+
+      }
     });
   }
   
@@ -66,9 +80,8 @@ export class PlanetsListComponent implements OnInit {
       // If the search term is empty, assign the unfiltered list of planets to the 'filteredPlanets' property.
       this.filteredPlanets = this.planets;
       
-    } else {
-
-      // If the search term is not empty, filter the list of planets based on the search term.
+    } else { // If the search term is not empty, filter the list of planets based on the search term.
+      
       // Convert both planet name and search term to lowercase for case-insensitive comparison.
       this.filteredPlanets = this.planets.filter(planet =>
         planet.name.toLowerCase().includes(this['searchTerm'].toLowerCase())
@@ -77,21 +90,24 @@ export class PlanetsListComponent implements OnInit {
     }
   }
 
-  private extractPlanetId(url: string): number { // Take a string url as input and return a number
+  onImageError(planet: any): void { // Handle image loading error
+    planet.imagePath = '../../assets/images/image.png';
+  }
+
+  private extractPlanetId(url: string): number { // This method takes a string URL as input and returns a number (presumably the ID of the planet)
     
-    // Use a regular expression to match a pattern where the url ends with {digits}
+    // Using a regular expression to match a pattern where the URL ends with digits surrounded by slashes
     const matches = url.match(/\/(\d+)\/$/);
 
     // If matches is not null and it contains at least one captured group
     if (matches && matches.length > 1) {
-
       // Parse the matched digits (the content of the first captured group) as an integer and return it
       return parseInt(matches[1]);
-
     }
 
-    // If no match was found
+    // If no match was found, returning 0 as a default value
     return 0;
+
   }
   
 }

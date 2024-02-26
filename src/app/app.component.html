@@ -1,33 +1,32 @@
-<div class="p-4 grid md:grid-cols-2">
+<div class="p-4 grid md:grid-cols-2 gap-4">
   <div>
-    
-    <!-- Navigation Tabs Group -->
-    <mat-tab-group backgroundColor="primary">
+    <div class="background-opacity p-4 rounded-md">
 
-      <!-- Personas Tabs -->
-      <mat-tab label="Personas">
+      <!-- Heading -->
+      <h3 class="!font-black">CHARACTERS</h3>
 
-        <!-- Persona card component -->
-        <app-persona-card (personaSelected)="onPersonaSelected($event)"></app-persona-card>
+      <!-- Persona card component -->
+      <app-persona-card (personaSelected)="onPersonaSelected($event)"></app-persona-card>
 
-      </mat-tab>
+    </div>
 
-      <!-- Planets Tabs -->
-      <mat-tab label="Planets">
+    <div class="background-opacity mt-4 p-4 rounded-md">
 
-        <app-search (searchChange)="onPlanetSearch($event)"></app-search>
+      <!-- Heading -->
+      <h3 class="!font-black">PLANETS</h3>
 
-        <!-- Planets list component -->
-        <app-planets-list [searchTerm]="searchTerm"></app-planets-list>
+      <!-- Search -->
+      <app-search (searchChange)="onPlanetSearch($event)"></app-search>
 
-      </mat-tab>
+      <!-- Planets list component -->
+      <app-planets-list [searchTerm]="searchTerm"></app-planets-list>
 
-    </mat-tab-group>
+    </div>
   </div>
-  <div>
 
-    <!-- Persona details component -->
-    <app-persona-details *ngIf="selectedPersona" [persona]="selectedPersona"></app-persona-details>
-    
+  <!-- Persona details component -->
+  <div class="background-opacity p-4 rounded-md">
+    <app-persona-details *ngIf="selectedPersona" [persona]="selectedPersona" [homeworldName]="selectedPersona.homeworldName"></app-persona-details>
   </div>
+  
 </div>

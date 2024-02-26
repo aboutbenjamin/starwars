@@ -1,5 +1,189 @@
 <div *ngIf="persona">
-  <h2>{{ persona.name }}</h2>
-  <p>Height: {{ persona.height }}</p>
-  <p>Mass: {{ persona.mass }}</p>
+  <div class="flex justify-between w-full">
+
+    <!-- Left side desktop -->
+    <div class="w-7/12 h-fit background-opacity rounded-md p-6">
+
+      <!-- Persona name -->
+      <h1 class="!font-black uppercase">{{ persona.name }}</h1>
+
+      <!-- Short description -->
+      <p class="text-lg text-gray-400">Explore all the details and specifications about {{ persona.name }} </p>
+      
+      <!-- Persona created/ edited -->
+      <ol class="mt-2">
+        <li>
+          <p>Created at: {{ persona.created | date: 'dd/MM/yyyy' }}</p>
+        </li>
+        <li>
+          <span>Edited at: {{ persona.edited | date: 'dd/MM/yyyy' }}</span>
+        </li>
+      </ol>
+
+      <!-- Persona home world and movies -->
+      <ol class="mt-2">
+        <li>
+          <p>Homeworld: <span class="uppercase">{{ homeworldName }}</span></p>
+        </li>
+        <li>
+          <h3 class="!mt-2">Movies:</h3>
+        </li>
+        <li *ngFor="let film of persona.filmsDetails">
+          <p>{{ film.title }} (Release Date: {{ film.release_date }})</p>
+        </li>
+      </ol>
+
+    </div>
+
+    <!-- Right side desktop -->
+    <div class="trapezoid-shape w-4/12 background-opacity h-auto rounded-md p-4 bg-gray-500">
+
+      <!-- Persona image -->
+      <img 
+        class="h-80 object-cover" 
+        [src]="persona.imagePath" 
+        alt="{{ persona.name }}"
+        (error)="handleImageError($event, persona)"
+      >
+
+    </div>
+
+  </div>
+
+  <!-- Additional details -->
+  <div class="relative w-fit h-fit mt-8">
+    <ol class="flex gap-4">
+
+      <!-- Persona height -->
+      <li class="flex flex-col justify-center items-center gap-2" matTooltip="Height: {{ persona.height }}">
+
+        <!-- SVG icon -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 200 215.993">
+          <g id="Height" transform="translate(-11470 -4566)">
+            <path id="ph--hexagon-thin" d="M221.76,69.66l-88-48.18a12,12,0,0,0-11.52,0l-88,48.18A12,12,0,0,0,28,80.18v95.64a12,12,0,0,0,6.24,10.52l88,48.18a11.95,11.95,0,0,0,11.52,0l88-48.18A12,12,0,0,0,228,175.82V80.18a12,12,0,0,0-6.24-10.52M220,175.82a4,4,0,0,1-2.08,3.5l-88,48.18a4,4,0,0,1-3.84,0l-88-48.18a4,4,0,0,1-2.08-3.5V80.18a4,4,0,0,1,2.08-3.5l88-48.18a3.94,3.94,0,0,1,3.84,0l88,48.18a4,4,0,0,1,2.08,3.5Z" transform="translate(11442 4545.993)" fill="#fff"/>
+            <path id="mdi--human-male-height" d="M21.617,2A10.37,10.37,0,1,1,11.264,12.352,10.395,10.395,0,0,1,21.617,2M13.852,27.881H29.381A10.352,10.352,0,0,1,39.734,38.234V66.7H31.969v38.822h-20.7V66.7H3.5V38.234A10.352,10.352,0,0,1,13.852,27.881m80.231,5.176H63.027V43.41H94.084m0,5.176H78.555V58.938H94.084M94.084,2H63.027V12.352H94.084m0,5.176H78.555V27.881H94.084m0,36.234H63.027V74.467H94.084m0,20.7H63.027v10.352H94.084m0-25.881H78.555V90H94.084" transform="translate(11521.208 4620.234)" fill="#fff"/>
+          </g>
+        </svg>
+
+        <div class="bg-white rounded-full w-10 h-10 flex justify-center items-center -mt-10 ml-12">
+          <span class="text-gray-900 font-bold">{{ persona.height }}</span>
+        </div>
+      </li>
+
+      <!-- Persona weight -->
+      <li class="flex flex-col justify-center items-center gap-2" matTooltip="Weight: {{ persona.mass }}">
+        
+        <!-- SVG icon -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 200 215.993">
+          <g id="Weight" transform="translate(-11470 -4566)">
+            <path id="ph--hexagon-thin" d="M221.76,69.66l-88-48.18a12,12,0,0,0-11.52,0l-88,48.18A12,12,0,0,0,28,80.18v95.64a12,12,0,0,0,6.24,10.52l88,48.18a11.95,11.95,0,0,0,11.52,0l88-48.18A12,12,0,0,0,228,175.82V80.18a12,12,0,0,0-6.24-10.52M220,175.82a4,4,0,0,1-2.08,3.5l-88,48.18a4,4,0,0,1-3.84,0l-88-48.18a4,4,0,0,1-2.08-3.5V80.18a4,4,0,0,1,2.08-3.5l88-48.18a3.94,3.94,0,0,1,3.84,0l88,48.18a4,4,0,0,1,2.08,3.5Z" transform="translate(11442 4545.993)" fill="#fff"/>
+            <path id="healthicons--overweight" d="M46.008,27.148A11.574,11.574,0,1,0,34.434,15.574,11.574,11.574,0,0,0,46.008,27.148m32.3,10.494a5.144,5.144,0,0,1-2.881,9.876q-3.957-1.16-7.965-2.135l.123.381c3.364,10.486,6.782,21.142,1.1,30.323L62.6,102.877a5.144,5.144,0,0,1-10.159-1.142V86.123c-2.047.18-4.177.18-6.43.18-1.785,0-3.493,0-5.144-.09v15.522a5.144,5.144,0,0,1-10.159,1.139L25.2,78.662c-8.2-9.737-4.457-21.417-.774-32.9l.1-.3c-2.526.6-5.18,1.286-8,2.068a5.144,5.144,0,1,1-2.752-9.913c12.255-3.4,22.158-5.285,32.217-5.331,10.074-.044,20,1.757,32.327,5.35" transform="translate(11523.992 4618.293)" fill="#fff" fill-rule="evenodd"/>
+          </g>
+        </svg>
+
+        <div class="bg-white rounded-full w-10 h-10 flex justify-center items-center -mt-10 ml-12">
+          <span class="text-gray-900 font-bold">{{ persona.mass }}</span>
+        </div>
+      </li>
+
+      <!-- Persona hair color -->
+      <li class="flex flex-col justify-center items-center gap-2" matTooltip="Hair color: {{ persona.hair_color }}">
+        
+        <!-- SVG icon -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 200 215.993">
+          <g id="Hair" transform="translate(-11470 -4566)">
+            <path id="ph--hexagon-thin" d="M221.76,69.66l-88-48.18a12,12,0,0,0-11.52,0l-88,48.18A12,12,0,0,0,28,80.18v95.64a12,12,0,0,0,6.24,10.52l88,48.18a11.95,11.95,0,0,0,11.52,0l88-48.18A12,12,0,0,0,228,175.82V80.18a12,12,0,0,0-6.24-10.52M220,175.82a4,4,0,0,1-2.08,3.5l-88,48.18a4,4,0,0,1-3.84,0l-88-48.18a4,4,0,0,1-2.08-3.5V80.18a4,4,0,0,1,2.08-3.5l88-48.18a3.94,3.94,0,0,1,3.84,0l88,48.18a4,4,0,0,1,2.08,3.5Z" transform="translate(11442 4545.993)" fill="#fff"/>
+            <g id="mingcute--hair-fill" transform="translate(11509.612 4613.608)">
+              <path id="Path_8" data-name="Path 8" d="M120.775,0V120.775H0V0Zm-57.4,117.041-.055.01-.357.176-.1.02-.07-.02-.357-.176a.1.1,0,0,0-.121.025l-.02.05-.086,2.154.025.1.05.065.523.372.075.02.06-.02.523-.372.06-.081.02-.086-.086-2.149a.107.107,0,0,0-.086-.091m1.334-.569-.065.01-.931.468-.05.05-.015.055.091,2.164.025.06.04.035,1.011.468a.127.127,0,0,0,.146-.04l.02-.07-.171-3.09a.135.135,0,0,0-.1-.111m-3.6.01a.116.116,0,0,0-.136.03l-.03.07-.171,3.09a.126.126,0,0,0,.086.121l.075-.01,1.011-.468.05-.04.02-.055.086-2.164-.015-.06-.05-.05Z" fill="none"/>
+              <path id="Path_9" data-name="Path 9" d="M48.291,3A45.291,45.291,0,0,0,3,48.291V78.485a15.1,15.1,0,0,0,15.1,15.1h6.955a10.064,10.064,0,0,0,9-5.565l.881-1.762a33.215,33.215,0,0,1-4.549-3.825,33.685,33.685,0,0,1-9.773-24.075A35.168,35.168,0,0,1,22.369,47.5c.5-1.545,1.9-1.726,3.276-1.726A25.136,25.136,0,0,0,46.233,35.081a2.516,2.516,0,0,1,4.116,0A25.126,25.126,0,0,0,70.936,45.775c1.379,0,2.778.181,3.276,1.726a35.226,35.226,0,0,1,1.756,10.855A33.676,33.676,0,0,1,66.2,82.43a33.149,33.149,0,0,1-4.549,3.825l.881,1.761a10.065,10.065,0,0,0,9,5.566h6.955a15.1,15.1,0,0,0,15.1-15.1V48.291A45.291,45.291,0,0,0,48.291,3" transform="translate(12.097 12.097)" fill="#fff"/>
+            </g>
+          </g>
+        </svg>
+
+        <div class="rounded-full bg-white w-10 h-10 flex justify-center items-center -mt-10 ml-12">
+          <div 
+          class="rounded-full w-5 h-5 flex justify-center items-center"
+          [ngClass]="{
+            'bg-yellow-500' : persona.hair_color === 'blond',
+            'bg-yellow-900' : persona.hair_color === 'brown',
+            'bg-black'      : persona.hair_color === 'black',
+            'brown-gray'    : persona.hair_color === 'brown, grey',
+            'auburn-white'  : persona.hair_color === 'auburn, white',
+            'bg-white'      : persona.hair_color === 'n/a' || persona.hair_color === 'none',
+          }"
+          >
+          <span *ngIf="persona.hair_color === 'n/a' || persona.hair_color === 'none'" class="text-gray-900 font-bold">n/a</span>
+        </div>
+        </div>
+      </li>
+
+      <!-- Persona gender -->
+      <li class="flex flex-col justify-center items-center gap-2" matTooltip="Gender: {{ persona.gender }}">
+        
+        <!-- SVG icon -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 200 215.993">
+          <g id="Female" transform="translate(-12310.003 -4566)">
+            <g id="Group_10" data-name="Group 10" transform="translate(840.003)">
+              <path id="ph--hexagon-thin" d="M221.76,69.66l-88-48.18a12,12,0,0,0-11.52,0l-88,48.18A12,12,0,0,0,28,80.18v95.64a12,12,0,0,0,6.24,10.52l88,48.18a11.95,11.95,0,0,0,11.52,0l88-48.18A12,12,0,0,0,228,175.82V80.18a12,12,0,0,0-6.24-10.52M220,175.82a4,4,0,0,1-2.08,3.5l-88,48.18a4,4,0,0,1-3.84,0l-88-48.18a4,4,0,0,1-2.08-3.5V80.18a4,4,0,0,1,2.08-3.5l88-48.18a3.94,3.94,0,0,1,3.84,0l88,48.18a4,4,0,0,1,2.08,3.5Z" transform="translate(11442 4545.993)" fill="#fff"/>
+            </g>
+            <path id="ph--gender-intersex-bold" d="M124.606,20H105.975a5.589,5.589,0,1,0,0,11.179H111.1l-7.285,7.3A31.673,31.673,0,1,0,78.028,94.021V98.25H68.713a5.589,5.589,0,1,0,0,11.179h9.315v9.315a5.589,5.589,0,0,0,11.179,0v-9.315h9.315a5.589,5.589,0,1,0,0-11.179H89.207V94.021a31.64,31.64,0,0,0,21.845-46.969l7.965-7.955V44.22a5.589,5.589,0,1,0,11.179,0V25.589A5.589,5.589,0,0,0,124.606,20M83.617,83.345a20.494,20.494,0,1,1,20.494-20.494A20.494,20.494,0,0,1,83.617,83.345" transform="translate(12318.957 4601.83)" fill="#fff"/>
+          </g>
+        </svg>
+        
+        <div class="bg-white rounded-full w-10 h-10 flex justify-center items-center -mt-10 ml-12">
+
+          <!-- Male -->
+          <svg *ngIf="persona.gender === 'male'" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 86.349 86.349">
+            <g id="Male" transform="translate(-12366.828 -4630.822)">
+              <path id="material-symbols--male" d="M90.349,4V36.381H79.555v-13.9L58.1,43.8a30.861,30.861,0,0,1,3.913,8.03,29.038,29.038,0,0,1,1.349,8.835A28.641,28.641,0,0,1,54.73,81.714a28.641,28.641,0,0,1-21.047,8.635,28.641,28.641,0,0,1-21.047-8.635A28.641,28.641,0,0,1,4,60.666a28.641,28.641,0,0,1,8.635-21.047,28.641,28.641,0,0,1,21.047-8.635,30.72,30.72,0,0,1,8.77,1.279,25.333,25.333,0,0,1,7.96,3.983L71.865,14.794h-13.9V4ZM33.682,41.778a18.2,18.2,0,0,0-13.357,5.532,18.892,18.892,0,0,0,0,26.714,18.2,18.2,0,0,0,13.357,5.532,18.2,18.2,0,0,0,13.357-5.532,18.892,18.892,0,0,0,0-26.714,18.2,18.2,0,0,0-13.357-5.532" transform="translate(12362.828 4626.822)"/>
+            </g>
+          </svg>
+
+          <!-- Female -->
+          <svg *ngIf="persona.gender === 'female'" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 65.163 100.707">
+            <g id="Female" transform="translate(-12377.422 -4623.643)">
+              <path id="material-symbols--female" d="M33.158,104.707V92.859H21.31V81.011H33.158V68.571A31.073,31.073,0,0,1,13.976,57.386,32.247,32.247,0,0,1,6.5,36.285a30.886,30.886,0,0,1,9.555-22.878A31.665,31.665,0,0,1,39.082,4a31.641,31.641,0,0,1,23.032,9.407,30.879,30.879,0,0,1,9.549,22.878,32.282,32.282,0,0,1-7.482,21.107A31.043,31.043,0,0,1,45.005,68.571v12.44H56.853V92.859H45.005v11.848Zm5.924-47.391a19.978,19.978,0,0,0,14.662-6.072,19.978,19.978,0,0,0,6.072-14.662A19.978,19.978,0,0,0,53.743,21.92a19.978,19.978,0,0,0-14.662-6.072A19.978,19.978,0,0,0,24.42,21.92a19.978,19.978,0,0,0-6.072,14.662A19.978,19.978,0,0,0,24.42,51.243a19.978,19.978,0,0,0,14.662,6.072" transform="translate(12370.922 4619.643)"/>
+            </g>
+          </svg>
+
+          <span *ngIf="persona.gender === 'n/a'" class="text-gray-900 font-bold">n/a</span>
+
+        </div>
+      </li>
+
+      <!-- Persona Birth date -->
+      <li class="flex flex-col justify-center items-center gap-2" matTooltip="Birth year: {{ persona.birth_year }}">
+        
+        <!-- SVG icon -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 200 215.993">
+          <g id="Female" transform="translate(-12310.003 -4566)">
+            <g id="Group_10" data-name="Group 10" transform="translate(840.003)">
+              <path id="ph--hexagon-thin" d="M221.76,69.66l-88-48.18a12,12,0,0,0-11.52,0l-88,48.18A12,12,0,0,0,28,80.18v95.64a12,12,0,0,0,6.24,10.52l88,48.18a11.95,11.95,0,0,0,11.52,0l88-48.18A12,12,0,0,0,228,175.82V80.18a12,12,0,0,0-6.24-10.52M220,175.82a4,4,0,0,1-2.08,3.5l-88,48.18a4,4,0,0,1-3.84,0l-88-48.18a4,4,0,0,1-2.08-3.5V80.18a4,4,0,0,1,2.08-3.5l88-48.18a3.94,3.94,0,0,1,3.84,0l88,48.18a4,4,0,0,1,2.08,3.5Z" transform="translate(11442 4545.993)" fill="#fff"/>
+            </g>
+            <g id="Group_13" data-name="Group 13" transform="translate(11.753 57.434)">
+              <g id="Group_11" data-name="Group 11" transform="matrix(0.966, -0.259, 0.259, 0.966, 12371.566, 4619.568)">
+                <rect id="Rectangle_1" data-name="Rectangle 1" width="7.396" height="63.925" rx="3.698" transform="translate(0 3.698) rotate(-30)" fill="#fff"/>
+                <rect id="Rectangle_2" data-name="Rectangle 2" width="9.51" height="17.962" rx="4.755" transform="translate(22.066 44.031) rotate(-30)" fill="#fff"/>
+                <rect id="Rectangle_3" data-name="Rectangle 3" width="2.642" height="5.321" rx="1.321" transform="translate(31.203 42.3) rotate(-30)" fill="#fff"/>
+              </g>
+              <g id="Group_12" data-name="Group 12" transform="matrix(0.966, 0.259, -0.259, 0.966, 12386.988, 4609.401)">
+                <rect id="Rectangle_1-2" data-name="Rectangle 1" width="7.396" height="63.925" rx="3.698" transform="translate(7.32 59.059) rotate(-150)" fill="#fff"/>
+                <rect id="Rectangle_2-2" data-name="Rectangle 2" width="9.51" height="17.962" rx="4.755" transform="translate(8.236 59.587) rotate(-150)" fill="#fff"/>
+                <rect id="Rectangle_3-2" data-name="Rectangle 3" width="2.642" height="5.321" rx="1.321" transform="translate(5.419 46.908) rotate(-150)" fill="#fff"/>
+              </g>
+            </g>
+            <text id="BBY" transform="translate(12363.503 4663.434)" fill="#fff" font-size="46" font-family="SegoeUIBlack, Segoe UI"><tspan x="0" y="0">BBY</tspan></text>
+          </g>
+        </svg>  
+
+        <div class="bg-white rounded-full w-10 h-10 flex justify-center items-center -mt-10 ml-12">
+
+          <!-- Here only the digit is taken from the string via birthyear service -->
+          <span class="text-gray-900 font-bold">{{ extractDigits(persona.birth_year) }}</span>
+
+        </div>
+      </li>
+
+    </ol> 
+  </div>
 </div>
