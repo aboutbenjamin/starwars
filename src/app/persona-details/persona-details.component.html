@@ -13,17 +13,17 @@
       <!-- Persona created/ edited -->
       <ol class="mt-2">
         <li>
-          <p>Created at: {{ persona.created | date: 'dd/MM/yyyy' }}</p>
+          <p>Created at: {{ persona.createdAt | date: 'dd/MM/yyyy' }}</p>
         </li>
         <li>
-          <span>Edited at: {{ persona.edited | date: 'dd/MM/yyyy' }}</span>
+          <span>Edited at: {{ persona.editedAt | date: 'dd/MM/yyyy' }}</span>
         </li>
       </ol>
 
       <!-- Persona home world and movies -->
       <ol class="mt-2">
         <li>
-          <p>Homeworld: <span class="uppercase">{{ homeworldName }}</span></p>
+          <p>Homeworld: <span class="uppercase">{{ persona.homeworldName }}</span></p>
         </li>
         <li>
           <h3 class="!mt-2">Movies:</h3>

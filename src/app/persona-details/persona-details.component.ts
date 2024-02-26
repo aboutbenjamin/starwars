@@ -9,49 +9,56 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrl: './persona-details.component.scss'
 })
 export class PersonaDetailsComponent implements OnInit {
-  @Input() persona: any;
-  @Input() homeworldName: string = '';
+  @Input() persona : any;
+  homeworldName    : string = '';
+  createdAt        : string = '';
+  editedAt         : string = '';
 
   constructor(private http: HttpClient, private birthYearService: BirthYearService, private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void { // This method is called when the component is initialized
-
-    // Fetching the homeworld details
-    this.fetchHomeworld();
-
-    // Fetching film details
-    this.fetchFilmDetails();
-
+    this.fetchDetails();
   }
 
-  fetchHomeworld() {
-    // Making an HTTP GET request to fetch homeworld details using the persona's homeworld URL
-    this.http.get<any>(this.persona.homeworld).subscribe(data => { // When the response is received, this callback function is executed
-      
-      // Extracting the homeworld name from the response data and assigning it to the homeworldName property
-      this.homeworldName = data.name;
+  fetchDetails() {
+    // Make an HTTP GET request to fetch details of the persona
+    this.http.get<any>(this.persona.url).subscribe(data => {
+
+      // Assign the fetched homeworld name to the component property
+      this.homeworldName = data.homeworldName;
+
+      // Assign the fetched created at date to the component property
+      this.createdAt     = data.createdAt;
+
+      // Assign the fetched edited at date to the component property
+      this.editedAt      = data.editedAt;
+
+      // Call fetchFilmDetails() to fetch details of films associated with the persona
+      this.fetchFilmDetails(data.films);
 
     });
   }
 
-  fetchFilmDetails() {
-    // Initializing an empty array to store film details for the persona
+  fetchFilmDetails(filmUrls: string[]) {
+    // Initialize an empty array to store film details for the persona
     this.persona.filmsDetails = [];
 
-    // Iterating through each film URL in the persona's films array
-    this.persona.films.forEach((filmUrl: string) => {
+    // Iterate through each film URL provided in the filmUrls array
+    filmUrls.forEach((filmUrl: string) => {
 
-      // Making an HTTP GET request to fetch details about each film
-      this.http.get<any>(filmUrl).subscribe(filmData => { // When the response is received, this callback function is executed
-        
-        // Extracting relevant details from the filmData and pushing it into the filmsDetails array
+      // Make an HTTP GET request to fetch details of the film using the film URL
+      this.http.get<any>(filmUrl).subscribe(filmData => {
+
+        // Once the response is received, push the film details (title and release_date) into the filmsDetails array
         this.persona.filmsDetails.push({
-          title: filmData.title,
+          title       : filmData.title,
           release_date: filmData.release_date
         });
 
       });
+
     });
+
   }
 
   extractDigits(birthYear: string): string {

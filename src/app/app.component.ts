@@ -14,41 +14,40 @@ export class AppComponent {
   constructor(private http: HttpClient) {}
 
   onPersonaSelected(persona: any) {
-    // Making an HTTP GET request to fetch details about the homeworld of the selected persona
-    this.http.get<any>(persona.homeworld).subscribe(data => {  // When the response is received, this callback function is execut
-      
-      // Assigning the homeworld name from the response data to the persona object
-      persona.homeworldName = data.name;
+    // Make an HTTP GET request to fetch details of the homeworld using the homeworld URL provided in the persona object
+    this.http.get<any>(persona.homeworld).subscribe(data => {
 
-      // Fetching film details related to the persona
+      // Once the response is received, assign the fetched homeworld name, created at date, and edited at date to the persona object
+      persona.homeworldName = data.name;
+      persona.createdAt     = data.created;
+      persona.editedAt      = data.edited;
+
+      // Call fetchFilmDetails() to fetch details of films associated with the persona
       this.fetchFilmDetails(persona);
 
-      // Setting the selected persona
+      // Set the selectedPersona property to the updated persona object
       this.selectedPersona = persona;
 
     });
   }
 
   fetchFilmDetails(persona: any) {
-    // Initialize an empty filmsDetails array for the given persona
+    // Initialize an empty array to store film details for the persona
     persona.filmsDetails = [];
 
-    // Iterate through each film URL in the persona's films array
+    // Iterate through each film URL provided in the persona's films array
     persona.films.forEach((filmUrl: string) => {
 
-      // Make an HTTP GET request to fetch details about each film
+      // Make an HTTP GET request to fetch details of the film using the film URL
       this.http.get<any>(filmUrl).subscribe(filmData => {
-
-        // When the response is received, push the film details (title and release_date) into the filmsDetails array
+        // Once the response is received, push the film details (title and release_date) into the filmsDetails array of the persona
         persona.filmsDetails.push({
           title: filmData.title,
           release_date: filmData.release_date
         });
-
       });
 
     });
-
   }
 
   onPlanetSearch(searchTerm: string) {
