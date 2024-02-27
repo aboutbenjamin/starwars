@@ -75,7 +75,7 @@ export class PlanetsListComponent implements OnInit {
   filterPlanets(): void {
 
     // Check if the search term is empty or whitespace.
-    if (this['searchTerm'].trim() === '') {
+    if (this.searchTerm.trim() === '') {
 
       // If the search term is empty, assign the unfiltered list of planets to the 'filteredPlanets' property.
       this.filteredPlanets = this.planets;
